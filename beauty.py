@@ -9,7 +9,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import FSInputFile
 
 # --- Конфигурация ---
-BOT_TOKEN = "8826957151:AAGoRWaVgnu9gn96TSA8gMl_4lurI_V5Zic"
+BOT_TOKEN = "8826957151:AAHJZvkkv7S33azSLKf955h_c84zI6vamW0"
 CHANNEL_LINK = "https://self.payanyway.ru/17705495463982"
 
 # --- Настройка логов ---
@@ -271,7 +271,7 @@ async def answer_q5(message: types.Message, state: FSMContext):
 async def restart_test(callback: types.CallbackQuery, state: FSMContext):
     await callback.answer()
     await state.clear()
-    await callback.message.edit_text("Начнём заново? 🚀", reply_markup=get_main_menu())
+    await callback.message.answer("Начнём заново? 🚀", reply_markup=get_main_menu())
 
 @dp.message()
 async def echo(message: types.Message, state: FSMContext):
