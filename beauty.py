@@ -6,13 +6,18 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMar
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
+from aiogram.types import FSInputFile
 
 # --- Конфигурация ---
 BOT_TOKEN = "8826957151:AAGoRWaVgnu9gn96TSA8gMl_4lurI_V5Zic"
 CHANNEL_LINK = "https://self.payanyway.ru/17705495463982"
 
 # --- Настройка логов ---
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # --- Инициализация бота и диспетчера ---
 bot = Bot(token=BOT_TOKEN)
@@ -219,8 +224,14 @@ async def answer_q5(message: types.Message, state: FSMContext):
 
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="📚 Уроки по ускорению", url=CHANNEL_LINK)],
-            [InlineKeyboardButton(text="🔄 Пройти тест заново", callback_data="restart")]
+            [InlineKeyboardButton(
+                text="📚 Авторский курс скорость 2990 р",
+                url=CHANNEL_LINK
+            )],
+            [InlineKeyboardButton(
+                text="🔄 Пройти тест заново",
+                callback_data="restart"
+            )]
         ]
     )
 
@@ -239,6 +250,20 @@ async def answer_q5(message: types.Message, state: FSMContext):
     )
 
     await message.answer(additional_text, reply_markup=keyboard)
+
+    try:
+        video = FSInputFile("beauty.MOV")
+        await message.answer_video(
+            video=video,
+            caption="🎥 Смотри видео-урок по быстрому выделению ресницы",
+            supports_streaming=True,  # важно для больших видео
+            width=720,  # можно подкорректировать
+            height=1280
+        )
+    except FileNotFoundError:
+        await message.answer("⚠️ Видео-урок временно недоступен. Скоро загрузим!")
+        logger.error("Файл beauty.MOV не найден!")
+
     await state.clear()
 
 
