@@ -249,7 +249,7 @@ async def answer_q5(message: types.Message, state: FSMContext):
         "✔ понимать, на каком этапе ты теряешь время"
     )
 
-    await message.answer(additional_text, reply_markup=keyboard)
+    await message.answer(additional_text, reply_markup=keyboard,parse_mode="HTML")
 
     try:
         video = FSInputFile("beauty.MOV")
