@@ -37,8 +37,8 @@ def get_yes_no_keyboard():
     """Клавиатура Да/Нет для вопросов"""
     return ReplyKeyboardMarkup(
         keyboard=[
-            [KeyboardButton(text="✅ Да (Эстилодез и другие ускорители)"),
-             KeyboardButton(text="❌ Нет")]
+            [KeyboardButton(text="✅ Да (Эстилодез и другие ускорители)")],
+            [KeyboardButton(text="❌ Нет")]
         ],
         resize_keyboard=True,
         one_time_keyboard=True
