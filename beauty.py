@@ -226,14 +226,8 @@ async def answer_q5(message: types.Message, state: FSMContext):
 
     # Дополнительное сообщение с пользой
     additional_text = (
-        "Я даю много пользы, за что и получаю огромное количество положительных отзывов. "
-        "В моём открытом канале уже есть уроки по быстрому снятию и выделению — я туда даю базу, "
-        "с которой реально можно начать ускоряться, даже если сейчас кажется, что всё идёт медленно.\n\n"
-        "Там объясняю не «в теории», а прямо по-человечески: как сократить время на выделении, "
-        "как не зависать на каждом пучке и почему иногда скорость просто не растёт, даже если ты стараешься быстрее работать.\n\n"
-        "И знаешь, что чаще всего мне пишут после этих уроков? Что дело вообще не в «руках» и не в том, что «я медленная». "
-        "А в том, что раньше никто не показывал, где именно теряется время в процессе.\n"
-        "Когда ты это понимаешь — всё начинает складываться по-другому.\n\n"
+        "Скорость - это легко , главное разобраться в шагах , дарю тебе урок по выделению🎁💝 \n\n"
+        "Это первый пункт в скоростном наращивании ресниц , ведь я за то что бы работать по одному глазу и без склеек.\n\n"
         "Что даёт моя система скорости ✅❤️\n\n"
         "✔ выстраивать работу по одному глазу\n"
         "✔ сокращать выделение ресницы до 1–2 секунд\n"
@@ -252,9 +246,13 @@ async def answer_q5(message: types.Message, state: FSMContext):
 async def restart_test(callback: types.CallbackQuery, state: FSMContext):
     await callback.answer()
     await state.clear()
-    await callback.message.answer("Начнём заново? 🚀", reply_markup=get_main_menu())
-    await callback.message.delete()
+    await callback.message.edit_text("Начнём заново? 🚀", reply_markup=get_main_menu())
 
+@dp.message()
+async def echo(message: types.Message, state: FSMContext):
+    current_state = await state.get_state()
+    if current_state is None:
+        await message.answer("Используй кнопки меню 👇", reply_markup=get_main_menu())
 
 # --- Функция результата (с HTML-тегами для жирного шрифта) ---
 def get_result_by_score(score: int) -> str:
@@ -347,7 +345,10 @@ def get_result_by_score(score: int) -> str:
 # --- Запуск бота ---
 async def main():
     print("🤖 Бот запущен...")
-    await dp.start_polling(bot)
+    try:
+        await dp.start_polling(bot, skip_updates=True)
+    except Exception as e:
+        logging.error(f"Критическая ошибка: {e}", exc_info=True)
 
 
 if __name__ == "__main__":
